@@ -2,6 +2,8 @@
 
 currently only supports HTTP GET requests
 
+[![Build Status](https://travis-ci.org/dgf/lc-rest-client.svg)](https://travis-ci.org/dgf/lc-rest-client)
+
 ## Deployment
 
 build and package this component with [Maven][mvn]
