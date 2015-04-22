@@ -1,11 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <component xmlns="http://adobe.com/idp/dsc/component/document">
-    <component-id>de.htw.ls.RestClient</component-id>
+    <component-id>de.htw.lc.RestClient</component-id>
     <version>${project.version}</version>
-    <supported-connectors />
     <supports-export>true</supports-export>
     <services>
         <service name="RestClient" orchestrateable="true" title="HTTP REST Client">
-            <description>HTTP client REST component</description>
+            <description>REST client component</description>
             <auto-deploy category-id="HTW" major-version="1" minor-version="0" />
             <implementation-class>de.htw.lc.RestClient</implementation-class>
             <small-icon>icons/network_service16.png</small-icon>
@@ -16,8 +16,10 @@
                     <input-parameter name="url" title="URL" type="java.lang.String">
                         <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
                     </input-parameter>
-                    <output-parameter name="response" title="Response" type="java.lang.String" />
-                    <description>HTTP GET desc</description>
+                    <output-parameter name="response" title="Response" type="de.htw.lc.Response" />
+                    <faults>
+                        <fault name="IOException" type="java.io.IOException" />
+                    </faults>
                 </operation>
             </operations>
         </service>
