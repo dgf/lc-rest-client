@@ -1,6 +1,6 @@
 # LiveCycle REST Client Component
 
-currently only supports HTTP GET requests
+currently only supports HTTP(S) GET requests with optional Basic Authentication
 
 [![Build Status](https://travis-ci.org/dgf/lc-rest-client.svg)](https://travis-ci.org/dgf/lc-rest-client)
 
@@ -9,12 +9,15 @@ currently only supports HTTP GET requests
 build and package this component with [Maven][mvn]
 
 ```sh
-$ mvn clean package -DskipTests
+$ mvn clean package
 ```
 
 and install the component archive ```lc-rest-client-<VERSION>.jar``` with the Workbench
 as described in the [Programming with LiveCycle ES4][lc] documentation.
 
+## Usage
+
+![screenshot](https://github.com/dgf/lc-rest-client/raw/master/WorkBenchRestClient.png)
+
 [mvn]: http://maven.apache.org
 [lc]: http://help.adobe.com/en_US/livecycle/11.0/ProgramLC/index.html
-
