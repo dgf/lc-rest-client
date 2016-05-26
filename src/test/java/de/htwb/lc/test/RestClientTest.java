@@ -156,4 +156,28 @@ public class RestClientTest {
         assertEquals("utf-8", response.getCharSet());
         assertEquals("text/plain;charset=utf-8", response.getContentType());
     }
+
+    @Test
+    public void testPUT() throws IOException {
+        final String content = "REST PUT TEST";
+        server.setHandler(new AbstractHandler() {
+            public void handle(String target, Request baseRequest, HttpServletRequest request,
+                    HttpServletResponse response) throws IOException, ServletException {
+                response.setContentType("text/plain;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().print(content);
+                baseRequest.setHandled(true);
+                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
+                assertEquals("ISO-8859-1", request.getCharacterEncoding());
+                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
+            }
+        });
+        startJetty();
+        Response response = client.put("http://" + HOST + ":" + PORT + "/", content, "text/plain", "ISO-8859-1");
+        assertEquals(200, response.getCode());
+        assertEquals(content, response.getBody());
+        assertEquals(content.length(), response.getLength());
+        assertEquals("utf-8", response.getCharSet());
+        assertEquals("text/plain;charset=utf-8", response.getContentType());
+    }
 }

@@ -11,6 +11,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 public class RestClient {
@@ -55,6 +56,12 @@ public class RestClient {
 
     public Response post(String url, String body, String contentType, String charset) throws IOException {
         PostMethod method = new PostMethod(url);
+        method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
+        return execute(createClient(url), method);
+    }
+
+    public Response put(String url, String body, String contentType, String charset) throws IOException {
+        PutMethod method = new PutMethod(url);
         method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
         return execute(createClient(url), method);
     }
