@@ -1,6 +1,6 @@
 # LiveCycle REST Client Component (AEM 6.2)
 
-currently only supports HTTP(S) GET requests with optional Basic Authentication
+currently only supports HTTP(S) GET, POST, PUT requests with optional Basic Authentication
 
 [![Build Status](https://travis-ci.org/dgf/lc-rest-client.svg)](https://travis-ci.org/dgf/lc-rest-client)
 
@@ -17,7 +17,7 @@ as described in the [Programming with LiveCycle ES4][lc] documentation.
 
 ## Usage
 
-![screenshot](https://github.com/dgf/lc-rest-client/raw/master/WorkBenchRestClient.png)
+![screenshot](https://github.com/dgf/lc-rest-client/raw/master/WorkbenchRestClient62.png)
 
 [mvn]: http://maven.apache.org
 [lc]: http://help.adobe.com/en_US/livecycle/11.0/ProgramLC/index.html
