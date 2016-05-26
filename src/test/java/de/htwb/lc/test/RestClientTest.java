@@ -1,4 +1,4 @@
-package de.htw.lc.test;
+package de.htwb.lc.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -24,8 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htw.lc.Response;
-import de.htw.lc.RestClient;
+import de.htwb.lc.Response;
+import de.htwb.lc.RestClient;
 
 @SuppressWarnings("serial")
 public class RestClientTest {
@@ -99,12 +99,12 @@ public class RestClientTest {
 
     class HelloServlet extends DefaultServlet {
         @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-                IOException {
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                throws ServletException, IOException {
             response.getWriter().append("hello " + request.getUserPrincipal().getName());
         }
     }
-    
+
     @Test
     public void testGETauth() throws IOException {
         ServletContextHandler context = new ServletContextHandler(server, "/", //

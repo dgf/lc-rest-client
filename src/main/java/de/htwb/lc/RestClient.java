@@ -1,4 +1,4 @@
-package de.htw.lc;
+package de.htwb.lc;
 
 import java.io.IOException;
 import java.net.URL;
