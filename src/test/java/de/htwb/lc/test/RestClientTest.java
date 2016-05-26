@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.HashLoginService;
@@ -63,14 +64,17 @@ public class RestClientTest {
                     HttpServletResponse response) throws IOException, ServletException {
                 response.setContentType("text/plain;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_OK);
-                baseRequest.setHandled(true);
                 response.getWriter().print(content);
+                baseRequest.setHandled(true);
             }
         });
         startJetty();
         Response response = client.get("http://" + HOST + ":" + PORT + "/");
         assertEquals(200, response.getCode());
         assertEquals(content, response.getBody());
+        assertEquals(content.length(), response.getLength());
+        assertEquals("utf-8", response.getCharSet());
+        assertEquals("text/plain;charset=utf-8", response.getContentType());
     }
 
     /**
@@ -129,4 +133,27 @@ public class RestClientTest {
         assertEquals(403, response.getCode());
     }
 
+    @Test
+    public void testPOST() throws IOException {
+        final String content = "REST POST TEST";
+        server.setHandler(new AbstractHandler() {
+            public void handle(String target, Request baseRequest, HttpServletRequest request,
+                    HttpServletResponse response) throws IOException, ServletException {
+                response.setContentType("text/plain;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().print(content);
+                baseRequest.setHandled(true);
+                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
+                assertEquals("ISO-8859-1", request.getCharacterEncoding());
+                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
+            }
+        });
+        startJetty();
+        Response response = client.post("http://" + HOST + ":" + PORT + "/", content, "text/plain", "ISO-8859-1");
+        assertEquals(200, response.getCode());
+        assertEquals(content, response.getBody());
+        assertEquals(content.length(), response.getLength());
+        assertEquals("utf-8", response.getCharSet());
+        assertEquals("text/plain;charset=utf-8", response.getContentType());
+    }
 }

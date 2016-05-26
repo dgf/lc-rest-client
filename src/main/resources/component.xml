@@ -21,6 +21,25 @@
                         <fault name="IOException" type="java.io.IOException" />
                     </faults>
                 </operation>
+                <operation name="post">
+                    <hint>HTTP POST request</hint>
+                    <input-parameter name="url" title="URL" type="java.lang.String">
+                        <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
+                    </input-parameter>
+                    <input-parameter name="body" title="Body" type="java.lang.String">
+                        <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
+                    </input-parameter>
+                    <input-parameter name="contentType" title="Content Type" type="java.lang.String">
+                        <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
+                    </input-parameter>
+                    <input-parameter name="charset" title="Charset" type="java.lang.String">
+                        <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
+                    </input-parameter>
+                    <output-parameter name="response" title="Response" type="de.htwb.lc.Response" />
+                    <faults>
+                        <fault name="IOException" type="java.io.IOException" />
+                    </faults>
+                </operation>
             </operations>
         </service>
     </services>
