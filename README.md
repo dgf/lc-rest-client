@@ -1,4 +1,4 @@
-# LiveCycle REST Client Component
+# LiveCycle REST Client Component (AEM 6.2)
 
 currently only supports HTTP(S) GET requests with optional Basic Authentication
 
