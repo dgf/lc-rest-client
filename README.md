@@ -1,6 +1,6 @@
 # LiveCycle REST Client Component (AEM 6.2)
 
-currently only supports HTTP(S) GET, POST, PUT requests with optional Basic Authentication
+currently only supports HTTP(S) GET, POST, PUT, DELETE requests with optional Basic Authentication
 
 [![Build Status](https://travis-ci.org/dgf/lc-rest-client.svg)](https://travis-ci.org/dgf/lc-rest-client)
 

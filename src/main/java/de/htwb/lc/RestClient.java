@@ -9,6 +9,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
@@ -48,6 +49,10 @@ public class RestClient {
 
         method.releaseConnection();
         return new Response(code, body, charSet, contentType, length);
+    }
+
+    public Response delete(String url) throws IOException {
+        return execute(createClient(url), new DeleteMethod(url));
     }
 
     public Response get(String url) throws IOException {

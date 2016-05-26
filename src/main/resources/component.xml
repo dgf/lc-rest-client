@@ -11,6 +11,16 @@
             <small-icon>icons/network_service16.png</small-icon>
             <large-icon>icons/network_service48.png</large-icon>
             <operations>
+                <operation name="delete">
+                    <hint>HTTP DELETE request</hint>
+                    <input-parameter name="url" title="URL" type="java.lang.String">
+                        <supported-expr-types>Literal,XPath,Template,Variable</supported-expr-types>
+                    </input-parameter>
+                    <output-parameter name="response" title="Response" type="de.htwb.lc.Response" />
+                    <faults>
+                        <fault name="IOException" type="java.io.IOException" />
+                    </faults>
+                </operation>
                 <operation name="get">
                     <hint>HTTP GET request</hint>
                     <input-parameter name="url" title="URL" type="java.lang.String">
