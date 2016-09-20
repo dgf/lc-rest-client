@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.htwb.lc</groupId>
     <artifactId>lc-rest-client</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <organization>
         <name>HTW Berlin</name>
         <url>http://www.htw-berlin.de</url>
@@ -13,8 +13,9 @@
     <description>a generic REST client DSC</description>
 
     <properties>
+        <commons.io.version>2.5</commons.io.version>
         <httpc.version>3.1</httpc.version>
-        <jetty.version>9.3.9.v20160517</jetty.version>
+        <jetty.version>9.3.11.v20160721</jetty.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -35,7 +36,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${commons.io.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
