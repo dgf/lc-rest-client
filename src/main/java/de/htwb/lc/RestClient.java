@@ -1,19 +1,15 @@
 package de.htwb.lc;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.*;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class RestClient {
 
@@ -34,9 +30,16 @@ public class RestClient {
         return client;
     }
 
-    private Response execute(HttpClient client, HttpMethodBase method) throws IOException {
+    private Response execute(HttpClient client, HttpMethodBase method, String accept) throws IOException {
+        // set accept header
+        if (accept != null) {
+            method.addRequestHeader("Accept", accept);
+        }
+
+        // call HTTP
         int code = client.executeMethod(method);
 
+        // get headers
         String charSet = method.getResponseCharSet();
         long length = method.getResponseContentLength();
         String body = method.getResponseBodyAsString();
@@ -47,28 +50,45 @@ public class RestClient {
             contentType = contentTypeHeader.getValue();
         }
 
+        // release and return
         method.releaseConnection();
         return new Response(code, body, charSet, contentType, length);
     }
 
+    public Response delete(String url, String accept) throws IOException {
+        return execute(createClient(url), new DeleteMethod(url), accept);
+    }
+
     public Response delete(String url) throws IOException {
-        return execute(createClient(url), new DeleteMethod(url));
+        return delete(url, null);
+    }
+
+    public Response get(String url, String accept) throws IOException {
+        return execute(createClient(url), new GetMethod(url), accept);
     }
 
     public Response get(String url) throws IOException {
-        return execute(createClient(url), new GetMethod(url));
+        return get(url, null);
+    }
+
+    public Response post(String url, String accept, String body, String contentType, String charset) throws IOException {
+        PostMethod method = new PostMethod(url);
+        method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
+        return execute(createClient(url), method, accept);
     }
 
     public Response post(String url, String body, String contentType, String charset) throws IOException {
-        PostMethod method = new PostMethod(url);
+        return post(url, null, body, contentType, charset);
+    }
+
+    public Response put(String url, String accept, String body, String contentType, String charset) throws IOException {
+        PutMethod method = new PutMethod(url);
         method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
-        return execute(createClient(url), method);
+        return execute(createClient(url), method, accept);
     }
 
     public Response put(String url, String body, String contentType, String charset) throws IOException {
-        PutMethod method = new PutMethod(url);
-        method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
-        return execute(createClient(url), method);
+        return put(url, null, body, contentType, charset);
     }
 
 }

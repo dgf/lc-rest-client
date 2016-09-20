@@ -1,14 +1,7 @@
 package de.htwb.lc.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.htwb.lc.Response;
+import de.htwb.lc.RestClient;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
@@ -25,8 +18,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwb.lc.Response;
-import de.htwb.lc.RestClient;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @SuppressWarnings("serial")
 public class RestClientTest {
@@ -61,7 +59,7 @@ public class RestClientTest {
         final String content = "REST DELETE TEST";
         server.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request,
-                    HttpServletResponse response) throws IOException, ServletException {
+                               HttpServletResponse response) throws IOException, ServletException {
                 response.setContentType("text/plain;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().print(content);
@@ -82,7 +80,7 @@ public class RestClientTest {
         final String content = "REST GET TEST";
         server.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request,
-                    HttpServletResponse response) throws IOException, ServletException {
+                               HttpServletResponse response) throws IOException, ServletException {
                 response.setContentType("text/plain;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().print(content);
@@ -98,15 +96,38 @@ public class RestClientTest {
         assertEquals("text/plain;charset=utf-8", response.getContentType());
     }
 
+
+    @Test
+    public void testGETxml() throws IOException {
+        final String content = "REST GET XML TEST";
+        server.setHandler(new AbstractHandler() {
+            public void handle(String target, Request baseRequest, HttpServletRequest request,
+                               HttpServletResponse response) throws IOException, ServletException {
+                assertEquals("application/xml", request.getHeader("Accept"));
+                response.setContentType("application/xml;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().print(content);
+                baseRequest.setHandled(true);
+            }
+        });
+        startJetty();
+        Response response = client.get("http://" + HOST + ":" + PORT + "/", "application/xml");
+        assertEquals(200, response.getCode());
+        assertEquals(content, response.getBody());
+        assertEquals(content.length(), response.getLength());
+        assertEquals("utf-8", response.getCharSet());
+        assertEquals("application/xml;charset=utf-8", response.getContentType());
+    }
+
     /**
      * Creates a security handler that only accepts request of admin users.
-     * 
+     *
      * @return handler
      */
     private ConstraintSecurityHandler createAdminSecurityHandler() {
         Constraint constraint = new Constraint();
         constraint.setName(Constraint.__FORM_AUTH);
-        constraint.setRoles(new String[] { "admin" });
+        constraint.setRoles(new String[]{"admin"});
         constraint.setAuthenticate(true);
 
         ConstraintMapping constraintMapping = new ConstraintMapping();
@@ -116,8 +137,8 @@ public class RestClientTest {
         ConstraintSecurityHandler securityHandler = new ConstraintSecurityHandler();
         securityHandler.addConstraintMapping(constraintMapping);
         HashLoginService loginService = new HashLoginService();
-        loginService.putUser("admin1", new Password("password"), new String[] { "admin" });
-        loginService.putUser("user1", new Password("password"), new String[] { "user" });
+        loginService.putUser("admin1", new Password("password"), new String[]{"admin"});
+        loginService.putUser("user1", new Password("password"), new String[]{"user"});
         securityHandler.setLoginService(loginService);
         return securityHandler;
     }
@@ -159,14 +180,14 @@ public class RestClientTest {
         final String content = "REST POST TEST";
         server.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request,
-                    HttpServletResponse response) throws IOException, ServletException {
+                               HttpServletResponse response) throws IOException, ServletException {
+                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
+                assertEquals("ISO-8859-1", request.getCharacterEncoding());
+                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
                 response.setContentType("text/plain;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().print(content);
                 baseRequest.setHandled(true);
-                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
-                assertEquals("ISO-8859-1", request.getCharacterEncoding());
-                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
             }
         });
         startJetty();
@@ -183,14 +204,14 @@ public class RestClientTest {
         final String content = "REST PUT TEST";
         server.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request,
-                    HttpServletResponse response) throws IOException, ServletException {
+                               HttpServletResponse response) throws IOException, ServletException {
+                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
+                assertEquals("ISO-8859-1", request.getCharacterEncoding());
+                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
                 response.setContentType("text/plain;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().print(content);
                 baseRequest.setHandled(true);
-                assertEquals("text/plain; charset=ISO-8859-1", request.getContentType());
-                assertEquals("ISO-8859-1", request.getCharacterEncoding());
-                assertEquals(content, IOUtils.toString(request.getInputStream(), request.getCharacterEncoding()));
             }
         });
         startJetty();
