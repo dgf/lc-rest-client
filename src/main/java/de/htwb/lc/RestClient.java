@@ -40,14 +40,18 @@ public class RestClient {
         int code = client.executeMethod(method);
 
         // get headers
-        String charSet = method.getResponseCharSet();
-        long length = method.getResponseContentLength();
-        String body = method.getResponseBodyAsString();
-
         Header contentTypeHeader = method.getResponseHeader("Content-Type");
         String contentType = null;
         if (contentTypeHeader != null) {
             contentType = contentTypeHeader.getValue();
+        }
+
+        long length = method.getResponseContentLength();
+        String body = method.getResponseBodyAsString();
+
+        String charSet = method.getResponseCharSet();
+        if ("application/xml".equals(contentType)) {
+            charSet = "utf-8";
         }
 
         // release and return
