@@ -15,7 +15,7 @@ as described in the [Programming with LiveCycle ES4][lc] documentation.
 
 ## Usage
 
-![screenshot](https://vcs.rz.htw-berlin.de/hrz/lc-rest-dsc/raw/master/WorkbenchRestClient62.png)
+![screenshot](https://github.com/dgf/lc-rest-client/raw/master/WorkbenchRestClient62.png)
 
 [mvn]: http://maven.apache.org
 [lc]: http://help.adobe.com/en_US/livecycle/11.0/ProgramLC/index.html
